@@ -170,25 +170,10 @@
   .btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
   .btn:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
 
-  /* ===== wish wall ===== */
+  /* ===== catatan kecil ===== */
   .wish-section{margin-top:34px;text-align:left}
   .wish-title{font-size:13px;font-weight:700;text-transform:uppercase;margin-bottom:10px;text-align:center}
-  .wish-form{display:flex;gap:8px}
-  .wish-form input{
-    flex:1;font-family:inherit;font-size:14px;font-weight:600;
-    padding:11px 12px;border:var(--border-thick);border-radius:10px;
-    background:var(--cream);box-shadow:var(--shadow-sm);
-  }
-  .wish-form input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-  .wish-form button{
-    font-family:inherit;font-weight:700;font-size:13px;text-transform:uppercase;
-    background:var(--blue);border:var(--border-thick);border-radius:10px;
-    padding:0 16px;cursor:pointer;box-shadow:var(--shadow-sm);
-    transition:transform .12s ease, box-shadow .12s ease;
-  }
-  .wish-form button:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
-  .wish-form button:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
-  .wish-wall{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;max-height:220px;overflow-y:auto;padding:4px}
+  .wish-wall{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:6px;padding:4px}
   .sticky{
     font-size:13px;font-weight:600;line-height:1.4;max-width:150px;
     border:3px solid var(--ink);border-radius:6px;padding:10px 12px;
@@ -224,11 +209,11 @@
 
       <div class="pesan" id="pesan">
         <!-- ====== GANTI ISI PESAN DI SINI ====== -->
-        <p>Selamat ulang tahun ya cantik! 🥳 Semoga di umur yang baru ini kamu makin bahagia, makin sehat, dan semua yang kamu pengenin pelan-pelan kejadian satu-satu.</p>
-        <p>Makasih ya udah selalu ada, udah sabar, dan udah bikin hari-hari aku jauh lebih seru. Kamu tuh kado terbaik yang aku punya. 💝</p>
-        <p>Pokoknya hari ini kamu harus seneng-seneng, gaboleh mikir yang berat-berat. Aku sayang kamu! 🐻💗</p>
-        <p class="ttd">— dari aku 💌</p>
-      </div>
+        <p>Selamat ulang tahun ya bububb! 🥳 Semoga di umur yang baru ini kamu makin bahagia, makin sehat, dan semua yang kamu pengenin pelan-pelan kejadian satu-satu.</p>
+        <p>Makasih ya udah selalu ada, udah sabar, dan udah bikin hari-hari aku jauh lebih seru. Semoga kita bisa mewujudkan impian kita masing-masing dan bersama. 💝</p>
+        <p>Maaf ya aku belum bisa ngerayain bareng kamu secara langsung, semoga kado-kado ini bisa jadi pengganti kehadiranku. I Love You! 💗</p>
+        <p class="ttd">— dari Khai Zulfa 💌</p>
+      </div>        
 
       <div class="umur">
         <span class="lbl" id="umurLbl">Geser buat naik level →</span>
@@ -250,14 +235,10 @@
         <div class="bonus" id="bonus">🎉 Semua balon pecah! Bonus dariku: kamu tuh orang paling berharga yang aku kenal. Makasih udah jadi kamu. 💖</div>
       </div>
 
-      <button class="btn" id="tombol">Pencet Aku 👀</button>
+      <button class="btn" id="tombol">Jangan dipencet ya 👀</button>
 
       <div class="wish-section">
-        <p class="wish-title">Tinggalin ucapan 📝</p>
-        <form class="wish-form" id="wishForm">
-          <input type="text" id="wishInput" maxlength="120" placeholder="tulis ucapan singkat..." aria-label="tulis ucapan">
-          <button type="submit">Kirim</button>
-        </form>
+        <p class="wish-title">Catatan kecil buat kamu 📝</p>
         <div class="wish-wall" id="wishWall"></div>
       </div>
     </div>
@@ -269,16 +250,22 @@
   const UMUR_LAMA = 21, UMUR_BARU = 22;
   const UMUR_TENGAH = (UMUR_LAMA + UMUR_BARU) / 2;
   const PESAN_KEJUTAN = [
-    "Kamu makin cantik aja 😳💕",
-    "Iya kamu, jangan nengok 👀",
-    "Aku beneran sayang kamu loh 🥺",
-    "Dadah, semoga harimu indah! 🎉"
+    "Nah ngeyel, yaudah pencet lagi kalo kepo",
+    "Nyari apa sayang? pencet lagi",
+    "Gaada apa-apa kalau dipencet lagi, coba deh",
+    "Selamat kamu dapet kado kulkas! pencet lagi",
+    "PRANKKK!!! wwkwkw, coba sekali lagi",
+    "Hampirrr, sekali lagii",
+    "I Love You Sayangkuu Cintakuu 💖",
+    "Udah udah jangan dipencet lagi"
   ];
   const TOTAL_BALON = 5;
-  const WISH_SEED = [
+  const CATATAN_KECIL = [
+    "Happy birthday!! 🥳",
+    "Sehat dan happy terus ya! 💪",
     "Semoga makin bahagia! 🎉",
-    "Sehat terus ya! 💪",
-    "Happy birthday!! 🥳"
+    "Semoga bisa wujudin mimpi kamu! 🥰",
+    "Jangan lupa selalu berbuat baik ✨"
   ];
 
   const $ = (id) => document.getElementById(id);
@@ -390,39 +377,15 @@
     balonRow.appendChild(btn);
   }
 
-  // ===== wish wall (tersimpan di browser ini lewat localStorage) =====
-  const WISH_KEY = 'bdayWishes_' + NAMA.toLowerCase().replace(/\s+/g, '-');
+  // ===== catatan kecil (statis, gak bisa ditambah) =====
   const wishWall = $('wishWall');
-
-  function renderWish(text){
+  CATATAN_KECIL.forEach((text) => {
     const note = document.createElement('div');
     note.className = 'sticky';
     note.style.background = PALET[Math.floor(Math.random() * PALET.length)];
     note.style.transform = `rotate(${(Math.random() * 8 - 4).toFixed(1)}deg)`;
     note.textContent = text;
-    wishWall.prepend(note);
-  }
-
-  function loadWishes(){
-    let saved;
-    try { saved = JSON.parse(localStorage.getItem(WISH_KEY)); } catch (e) { saved = null; }
-    const list = Array.isArray(saved) ? saved : WISH_SEED;
-    list.forEach(renderWish);
-  }
-  loadWishes();
-
-  $('wishForm').addEventListener('submit', (ev) => {
-    ev.preventDefault();
-    const input = $('wishInput');
-    const text = input.value.trim();
-    if (!text) return;
-    renderWish(text);
-    let saved;
-    try { saved = JSON.parse(localStorage.getItem(WISH_KEY)); } catch (e) { saved = null; }
-    const list = Array.isArray(saved) ? saved : WISH_SEED.slice();
-    list.push(text);
-    localStorage.setItem(WISH_KEY, JSON.stringify(list));
-    input.value = '';
+    wishWall.appendChild(note);
   });
 </script>
 </body>
