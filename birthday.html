@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday! 🎂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* ====== GANTI PALET WARNA DI SINI ====== */
+  :root{
+    --pink:#FB929E;
+    --pink-light:#FFDFDF;
+    --cream:#FFF6F6;
+    --blue:#AEDEFC;
+    --ink:#181818;
+    --white:#FFFFFF;
+    --shadow-lg:8px 8px 0 var(--ink);
+    --shadow-md:6px 6px 0 var(--ink);
+    --shadow-sm:4px 4px 0 var(--ink);
+    --border-thick:3px solid var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(var(--pink-light) 2px, transparent 2px) 0 0/26px 26px,
+      var(--cream);
+    display:flex;flex-direction:column;align-items:center;
+    padding:0 0 100px;overflow-x:hidden;
+    min-height:100%;
+  }
+
+  /* ===== marquee ticker ===== */
+  .marquee{
+    width:100%;background:var(--ink);color:var(--pink-light);
+    overflow-x:hidden;overflow-y:visible;white-space:nowrap;border-bottom:var(--border-thick);
+    padding:20px 0;font-weight:700;letter-spacing:.5px;line-height:1;
+  }
+  .marquee-track{display:inline-block;animation:scroll 16s linear infinite;line-height:1}
+  .marquee span{display:inline-block;padding:0 18px;font-size:16px;line-height:1.4;vertical-align:middle;text-transform:uppercase}
+  @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  main{width:100%;display:flex;flex-direction:column;align-items:center;padding:44px 20px 40px}
+
+  .card{
+    position:relative;
+    background:var(--white);
+    border:var(--border-thick);
+    border-radius:22px;
+    max-width:560px;width:100%;
+    padding:46px 28px 40px;
+    text-align:center;
+    box-shadow:var(--shadow-lg);
+    transform:rotate(-.6deg);
+  }
+
+  .badge{
+    position:absolute;top:-20px;left:-16px;
+    background:var(--blue);border:var(--border-thick);border-radius:10px;
+    padding:8px 14px;font-weight:700;font-size:12px;text-transform:uppercase;
+    transform:rotate(-9deg);box-shadow:var(--shadow-sm);
+  }
+  .badge2{
+    position:absolute;top:-16px;right:-14px;
+    background:var(--pink);border:var(--border-thick);border-radius:50%;
+    width:70px;height:70px;display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:700;text-align:center;line-height:1.15;
+    transform:rotate(8deg);box-shadow:var(--shadow-sm);
+  }
+
+  .cake{font-size:66px;display:inline-block;animation:bounce 1.8s ease-in-out infinite;cursor:pointer}
+  @keyframes bounce{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(4deg)}}
+
+  h1{
+    font-family:'Archivo Black',system-ui,sans-serif;
+    font-size:clamp(26px,6.5vw,40px);line-height:1.25;margin:16px 0 10px;
+    text-transform:uppercase;
+  }
+  h1 .nama{
+    display:inline-block;background:var(--pink);border:3px solid var(--ink);
+    border-radius:8px;padding:2px 12px;transform:rotate(-2deg);
+    box-shadow:var(--shadow-sm);
+  }
+
+  .sub{font-size:15px;font-weight:700;margin-bottom:22px}
+
+  .pesan{
+    font-size:16px;line-height:1.7;font-weight:500;
+    background:var(--pink-light);border:var(--border-thick);border-radius:16px;
+    padding:20px 20px;box-shadow:var(--shadow-sm);
+    text-align:left;transform:rotate(.4deg);
+  }
+  .pesan p{margin-bottom:12px}
+  .pesan p:last-child{margin-bottom:0}
+  .ttd{text-align:right;font-weight:800}
+
+  /* ===== umur: geser buat naik level ===== */
+  .umur{margin:28px auto 4px;display:flex;flex-direction:column;align-items:center;gap:12px;font-weight:700}
+  .umur .lbl{font-size:13px;text-transform:uppercase;transition:opacity .3s ease}
+  .umur .lbl.done{opacity:.55}
+
+  .age-track{
+    position:relative;width:200px;height:104px;border-radius:16px;
+    border:var(--border-thick);box-shadow:var(--shadow-md);overflow:hidden;
+  }
+  .age-panel{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Archivo Black',system-ui,sans-serif;font-size:46px;color:var(--ink);
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+  }
+  .age-panel.lama{background:var(--pink-light);transform:translateX(calc(var(--p1,0) * -100%))}
+  .age-panel.tengah{background:var(--pink);transform:translateX(calc((1 - var(--p1,0) - var(--p2,0)) * 100%))}
+  .age-panel.baru{background:var(--blue);transform:translateX(calc((1 - var(--p2,0)) * 100%))}
+  .age-track.pop{animation:popScale .5s ease}
+  @keyframes popScale{0%{transform:scale(1)}40%{transform:scale(1.15) rotate(-3deg)}100%{transform:scale(1)}}
+
+  .age-slider-wrap{position:relative;width:200px}
+  input[type=range].age-range{
+    -webkit-appearance:none;appearance:none;width:100%;height:24px;
+    border:var(--border-thick);border-radius:999px;background:var(--pink-light);
+    box-shadow:var(--shadow-sm);cursor:grab;
+  }
+  input[type=range].age-range:active{cursor:grabbing}
+  input[type=range].age-range:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+  input[type=range].age-range::-webkit-slider-thumb{
+    -webkit-appearance:none;width:34px;height:34px;margin-top:-5px;border-radius:50%;
+    background:var(--pink);border:3px solid var(--ink);box-shadow:var(--shadow-sm);cursor:grab;
+  }
+  input[type=range].age-range::-moz-range-thumb{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--pink);border:3px solid var(--ink);box-shadow:var(--shadow-sm);cursor:grab;
+  }
+  input[type=range].age-range::-moz-range-track{background:transparent;border:none}
+  .age-hint{position:absolute;top:1px;right:8px;font-size:16px;pointer-events:none;animation:nudge 1.3s ease-in-out infinite}
+  .age-hint.hide{opacity:0;transition:opacity .3s ease}
+  @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(-6px)}}
+
+  /* ===== balon interaktif ===== */
+  .balon-wrap{margin-top:30px}
+  .balon-title{font-size:13px;font-weight:700;text-transform:uppercase;margin-bottom:10px}
+  .balon-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+  .balon{
+    font-size:34px;background:none;border:none;cursor:pointer;
+    transition:transform .15s ease;filter:drop-shadow(2px 2px 0 var(--ink));
+  }
+  .balon:hover{transform:scale(1.15) rotate(-6deg)}
+  .balon.pecah{animation:pecah .35s ease forwards}
+  @keyframes pecah{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(0);opacity:0}}
+  .balon-counter{margin-top:8px;font-size:13px;font-weight:700}
+  .bonus{
+    display:none;margin-top:16px;background:var(--pink);border:var(--border-thick);
+    border-radius:14px;padding:14px 16px;font-weight:700;box-shadow:var(--shadow-sm);
+    transform:rotate(-1deg);
+  }
+  .bonus.show{display:block;animation:popScale .5s ease}
+
+  .btn{
+    margin-top:28px;cursor:pointer;font-family:'Space Grotesk',sans-serif;
+    background:var(--pink);color:var(--ink);font-weight:700;font-size:15px;
+    text-transform:uppercase;letter-spacing:.3px;
+    padding:14px 30px;border:var(--border-thick);border-radius:14px;
+    box-shadow:var(--shadow-md);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink)}
+  .btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+  .btn:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+
+  /* ===== wish wall ===== */
+  .wish-section{margin-top:34px;text-align:left}
+  .wish-title{font-size:13px;font-weight:700;text-transform:uppercase;margin-bottom:10px;text-align:center}
+  .wish-form{display:flex;gap:8px}
+  .wish-form input{
+    flex:1;font-family:inherit;font-size:14px;font-weight:600;
+    padding:11px 12px;border:var(--border-thick);border-radius:10px;
+    background:var(--cream);box-shadow:var(--shadow-sm);
+  }
+  .wish-form input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+  .wish-form button{
+    font-family:inherit;font-weight:700;font-size:13px;text-transform:uppercase;
+    background:var(--blue);border:var(--border-thick);border-radius:10px;
+    padding:0 16px;cursor:pointer;box-shadow:var(--shadow-sm);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .wish-form button:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+  .wish-form button:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+  .wish-wall{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;max-height:220px;overflow-y:auto;padding:4px}
+  .sticky{
+    font-size:13px;font-weight:600;line-height:1.4;max-width:150px;
+    border:3px solid var(--ink);border-radius:6px;padding:10px 12px;
+    box-shadow:var(--shadow-sm);word-break:break-word;
+  }
+
+  .float{position:fixed;pointer-events:none;z-index:5;animation:rise linear forwards}
+  @keyframes rise{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(-100vh) rotate(360deg);opacity:0}}
+  .confetti-sq{
+    position:fixed;width:12px;height:12px;border:2px solid var(--ink);
+    pointer-events:none;z-index:5;animation:fall linear forwards;
+  }
+  @keyframes fall{0%{transform:translateY(-10vh) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(540deg);opacity:.9}}
+
+  @media (prefers-reduced-motion:reduce){
+    .cake,.marquee-track,.float,.confetti-sq,.age-hint{animation:none}
+    .age-panel{transition:none}
+  }
+</style>
+</head>
+<body>
+
+  <div class="marquee"><div class="marquee-track" id="marqueeTrack"></div></div>
+
+  <main>
+    <div class="card">
+      <span class="badge">Spesial buat kamu</span>
+      <span class="badge2">Level<br>Up!</span>
+
+      <span class="cake" id="cake" title="pencet kuenya!">🎂</span>
+      <h1>Selamat Ulang Tahun,<br><span class="nama" id="nama">Ilmi</span>!</h1>
+      <p class="sub">✨ HARI SPESIAL BUAT ORANG SPESIAL ✨</p>
+
+      <div class="pesan" id="pesan">
+        <!-- ====== GANTI ISI PESAN DI SINI ====== -->
+        <p>Selamat ulang tahun ya cantik! 🥳 Semoga di umur yang baru ini kamu makin bahagia, makin sehat, dan semua yang kamu pengenin pelan-pelan kejadian satu-satu.</p>
+        <p>Makasih ya udah selalu ada, udah sabar, dan udah bikin hari-hari aku jauh lebih seru. Kamu tuh kado terbaik yang aku punya. 💝</p>
+        <p>Pokoknya hari ini kamu harus seneng-seneng, gaboleh mikir yang berat-berat. Aku sayang kamu! 🐻💗</p>
+        <p class="ttd">— dari aku 💌</p>
+      </div>
+
+      <div class="umur">
+        <span class="lbl" id="umurLbl">Geser buat naik level →</span>
+        <div class="age-track" id="ageTrack">
+          <span class="age-panel lama" id="numLama">21</span>
+          <span class="age-panel tengah" id="numTengah">21.5</span>
+          <span class="age-panel baru" id="numBaru">22</span>
+        </div>
+        <div class="age-slider-wrap">
+          <input type="range" class="age-range" id="umurSlider" min="0" max="100" value="0" step="1" aria-label="geser untuk naik level umur">
+          <span class="age-hint" id="ageHint">👉</span>
+        </div>
+      </div>
+
+      <div class="balon-wrap">
+        <p class="balon-title">Pecahin balonnya 🎈</p>
+        <div class="balon-row" id="balonRow"></div>
+        <p class="balon-counter" id="balonCounter">0/5 balon pecah</p>
+        <div class="bonus" id="bonus">🎉 Semua balon pecah! Bonus dariku: kamu tuh orang paling berharga yang aku kenal. Makasih udah jadi kamu. 💖</div>
+      </div>
+
+      <button class="btn" id="tombol">Pencet Aku 👀</button>
+
+      <div class="wish-section">
+        <p class="wish-title">Tinggalin ucapan 📝</p>
+        <form class="wish-form" id="wishForm">
+          <input type="text" id="wishInput" maxlength="120" placeholder="tulis ucapan singkat..." aria-label="tulis ucapan">
+          <button type="submit">Kirim</button>
+        </form>
+        <div class="wish-wall" id="wishWall"></div>
+      </div>
+    </div>
+  </main>
+
+<script>
+  /* ====== KONFIGURASI: GANTI DI SINI ====== */
+  const NAMA = "Yusrina Ilmi";
+  const UMUR_LAMA = 21, UMUR_BARU = 22;
+  const UMUR_TENGAH = (UMUR_LAMA + UMUR_BARU) / 2;
+  const PESAN_KEJUTAN = [
+    "Kamu makin cantik aja 😳💕",
+    "Iya kamu, jangan nengok 👀",
+    "Aku beneran sayang kamu loh 🥺",
+    "Dadah, semoga harimu indah! 🎉"
+  ];
+  const TOTAL_BALON = 5;
+  const WISH_SEED = [
+    "Semoga makin bahagia! 🎉",
+    "Sehat terus ya! 💪",
+    "Happy birthday!! 🥳"
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  $('nama').textContent = NAMA;
+  $('numLama').textContent = UMUR_LAMA;
+  $('numTengah').textContent = UMUR_TENGAH;
+  $('numBaru').textContent = UMUR_BARU;
+
+  // marquee content
+  const marqueeText = `🎉 HAPPY BIRTHDAY, ${NAMA.toUpperCase()} • LEVEL UP KE ${UMUR_BARU} • SELAMAT ULTAH 🎂 `;
+  $('marqueeTrack').innerHTML = (marqueeText + marqueeText).split(' • ').map(t => `<span>${t}</span>`).join('');
+
+  // ===== umur: geser buat naik level =====
+  const ageTrack = $('ageTrack');
+  const umurSlider = $('umurSlider');
+  const ageHint = $('ageHint');
+  const umurLbl = $('umurLbl');
+  let umurDone = false;
+
+  function setProgress(p){
+    const p1 = Math.min(Math.max(p * 2, 0), 1);
+    const p2 = Math.min(Math.max(p * 2 - 1, 0), 1);
+    ageTrack.style.setProperty('--p1', p1);
+    ageTrack.style.setProperty('--p2', p2);
+  }
+
+  umurSlider.addEventListener('input', () => {
+    setProgress(umurSlider.value / 100);
+    if (umurSlider.value > 5) ageHint.classList.add('hide');
+  });
+
+  umurSlider.addEventListener('change', () => {
+    const reached = Number(umurSlider.value) >= 85;
+    if (reached){
+      umurDone = true;
+      umurSlider.value = 100;
+      setProgress(1);
+      umurLbl.textContent = `🎉 Selamat, level ${UMUR_BARU}!`;
+      umurLbl.classList.add('done');
+      ageTrack.classList.add('pop');
+      const rect = ageTrack.getBoundingClientRect();
+      confettiBurst(rect.left + rect.width / 2, rect.top, 16);
+      setTimeout(() => ageTrack.classList.remove('pop'), 600);
+    } else {
+      umurDone = false;
+      umurSlider.value = 0;
+      setProgress(0);
+      umurLbl.textContent = 'Geser buat naik level →';
+      umurLbl.classList.remove('done');
+      ageHint.classList.remove('hide');
+    }
+  });
+
+  if (reduceMotion){
+    umurSlider.value = 100;
+    setProgress(1);
+    umurLbl.textContent = `🎉 Selamat, level ${UMUR_BARU}!`;
+    ageHint.classList.add('hide');
+  }
+
+  // ===== confetti kotak-kotak =====
+  const PALET = ['#FB929E', '#AEDEFC', '#FFDFDF'];
+  function confettiBurst(x, y, jumlah = 14){
+    if (reduceMotion) return;
+    for (let k = 0; k < jumlah; k++){
+      const e = document.createElement('span');
+      e.className = 'confetti-sq';
+      e.style.left = (x + (Math.random() * 80 - 40)) + 'px';
+      e.style.top = y + 'px';
+      e.style.background = PALET[Math.floor(Math.random() * PALET.length)];
+      e.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+      document.body.appendChild(e);
+      setTimeout(() => e.remove(), 3200);
+    }
+  }
+
+  // ===== tombol kejutan =====
+  let i = 0;
+  $('tombol').addEventListener('click', (ev) => {
+    $('tombol').textContent = PESAN_KEJUTAN[i % PESAN_KEJUTAN.length];
+    i++;
+    confettiBurst(ev.clientX, ev.clientY - 20);
+  });
+
+  // pencet kue juga kasih confetti kecil
+  $('cake').addEventListener('click', (ev) => confettiBurst(ev.clientX, ev.clientY, 8));
+
+  // ===== balon interaktif =====
+  const balonRow = $('balonRow');
+  let balonPecah = 0;
+  for (let b = 0; b < TOTAL_BALON; b++){
+    const btn = document.createElement('button');
+    btn.className = 'balon';
+    btn.type = 'button';
+    btn.textContent = '🎈';
+    btn.setAttribute('aria-label', 'pecahin balon');
+    btn.addEventListener('click', (ev) => {
+      if (btn.classList.contains('pecah')) return;
+      btn.classList.add('pecah');
+      confettiBurst(ev.clientX, ev.clientY, 10);
+      balonPecah++;
+      $('balonCounter').textContent = `${balonPecah}/${TOTAL_BALON} balon pecah`;
+      if (balonPecah === TOTAL_BALON){
+        $('bonus').classList.add('show');
+      }
+    });
+    balonRow.appendChild(btn);
+  }
+
+  // ===== wish wall (tersimpan di browser ini lewat localStorage) =====
+  const WISH_KEY = 'bdayWishes_' + NAMA.toLowerCase().replace(/\s+/g, '-');
+  const wishWall = $('wishWall');
+
+  function renderWish(text){
+    const note = document.createElement('div');
+    note.className = 'sticky';
+    note.style.background = PALET[Math.floor(Math.random() * PALET.length)];
+    note.style.transform = `rotate(${(Math.random() * 8 - 4).toFixed(1)}deg)`;
+    note.textContent = text;
+    wishWall.prepend(note);
+  }
+
+  function loadWishes(){
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem(WISH_KEY)); } catch (e) { saved = null; }
+    const list = Array.isArray(saved) ? saved : WISH_SEED;
+    list.forEach(renderWish);
+  }
+  loadWishes();
+
+  $('wishForm').addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const input = $('wishInput');
+    const text = input.value.trim();
+    if (!text) return;
+    renderWish(text);
+    let saved;
+    try { saved = JSON.parse(localStorage.getItem(WISH_KEY)); } catch (e) { saved = null; }
+    const list = Array.isArray(saved) ? saved : WISH_SEED.slice();
+    list.push(text);
+    localStorage.setItem(WISH_KEY, JSON.stringify(list));
+    input.value = '';
+  });
+</script>
+</body>
+</html>
